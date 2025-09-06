@@ -27,4 +27,4 @@ For hackathon/demo purposes only. Not production ready.
 - [Kushagra Singh](https://github.com/LuciferK47)
 - [Dandu Asrith](https://github.com/asrith-306)
 - [Shambhavi Rani](https://github.com/shambhavi233)
-- [Venkata Sai Sohan Krishnamsetty]
+- Venkata Sai Sohan Krishnamsetty
