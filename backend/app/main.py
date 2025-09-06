@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.api.routes import router
 
 app = FastAPI(
     title="Clinical Trials Resource Dashboard",
@@ -15,6 +16,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include API routes
+app.include_router(router)
+
 @app.get("/")
 def read_root():
     return {"message": "Clinical Trials Dashboard API", "status": "running"}
@@ -22,11 +26,3 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
-
-@app.get("/api/test")
-def test_endpoint():
-    return {"message": "Backend connected successfully"}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
