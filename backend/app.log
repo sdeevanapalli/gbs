@@ -1,0 +1,4 @@
+2025-09-07 14:02:08,904 - app.utils.logger - INFO - Received file upload: sample_data.json
+2025-09-07 14:02:08,905 - app.utils.logger - INFO - Successfully loaded data with 2 resources
+2025-09-07 14:05:03,705 - fastapi - WARNING - email-validator not installed, email fields will be treated as str.
+To install, run: pip install email-validator

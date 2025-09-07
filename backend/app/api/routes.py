@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, UploadFile, File
 from typing import List, Dict, Any
 import json
 import re
+from app.utils.logger import logger
 
 router = APIRouter(prefix="/api", tags=["Clinical Trials"])
 
@@ -95,10 +96,22 @@ async def upload_data(file: UploadFile = File(...)):
     """Upload and process quarterly data file"""
     global current_data
     
+    logger.info(f"Received file upload: {file.filename}")
+    
     try:
+        # Validate file type
+        if not file.filename.endswith('.json'):
+            raise HTTPException(status_code=400, detail="Only JSON files are supported")
+        
         content = await file.read()
         data = json.loads(content.decode('utf-8'))
+        
+        # Validate required fields
+        if 'resources' not in data or 'trials' not in data:
+            raise HTTPException(status_code=400, detail="Missing required fields: 'resources' or 'trials'")
+        
         current_data = data
+        logger.info(f"Successfully loaded data with {len(data.get('resources', []))} resources")
         
         return {
             "message": "Data uploaded successfully",
@@ -106,9 +119,13 @@ async def upload_data(file: UploadFile = File(...)):
             "trials_count": len(data.get('trials', []))
         }
         
+    except json.JSONDecodeError:
+        logger.error("Invalid JSON format in uploaded file")
+        raise HTTPException(status_code=400, detail="Invalid JSON format")
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error processing file: {str(e)}")
-
+        logger.error(f"Error processing file: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Server error: {str(e)}")
+    
 @router.get("/trials")
 async def get_trials():
     """Get all clinical trials"""

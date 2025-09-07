@@ -4,8 +4,24 @@ from app.api.routes import router
 
 app = FastAPI(
     title="Clinical Trials Resource Dashboard",
-    description="Advanced resource management for clinical drug research",
-    version="1.0.0"
+    description="""
+    Advanced resource management dashboard for clinical drug research.
+    
+    ## Features
+    * Dynamic quarterly data processing
+    * Resource bottleneck analysis  
+    * Predictive forecasting
+    * Trial timeline management
+    
+    ## Business Rules
+    * 1 FTE = 650 subjects = 7 hours/day
+    * NTSA reduces effective supply by ~20%
+    """,
+    version="1.0.1",
+    contact={
+        "name": "Team Stackoverflowers",
+        "email": "shriniketh.d@gmail.com",
+    }
 )
 
 app.add_middleware(
